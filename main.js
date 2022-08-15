@@ -328,9 +328,9 @@ for (let t = 0; t < numTrials; t++) {
       {
         type: "html-button-response",
         stimulus:
-          '<video><source src="' +
+          '<video width="500" controls><source src="' +
           audioQ[t] +
-          '" ype="video/mp4">해당 브라우저는 video 태그를 지원하지 않습니다.</video>',
+          '" type="video/mp4">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
         choices: ["Next"],
         response_ends_trial: false,
       },
