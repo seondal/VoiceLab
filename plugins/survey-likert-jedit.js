@@ -1,288 +1,154 @@
-/**
- * jspsych-survey-likert
- * a jspsych plugin for measuring items on a likert scale
- *
- * Josh de Leeuw
- *
- * documentation: docs.jspsych.org
- *
- */
-
-jsPsych.plugins["survey-likert-jedit"] = (function () {
-  var plugin = {};
-
-  jsPsych.pluginAPI.registerPreload(
-    "audio-button-response",
-    "stimulus",
-    "audio"
-  );
-
-  plugin.info = {
-    name: "survey-likert-jedit",
-    description: "",
+var jsPsychSurveyLikert = (function (e) {
+  "use strict";
+  const t = {
+    name: "survey-likert",
     parameters: {
-      stimulus: {
-        type: jsPsych.plugins.parameterType.AUDIO,
-        pretty_name: "Stimulus",
-        default: null,
-        description: "The audio to be played.",
-      },
-      trial_duration: {
-        type: jsPsych.plugins.parameterType.INT,
-        pretty_name: "Trial duration",
-        default: null,
-        description: "The maximum duration to wait for a response.",
-      },
-      response_ends_trial: {
-        type: jsPsych.plugins.parameterType.BOOL,
-        pretty_name: "Response ends trial",
-        default: true,
-        description: "If true, the trial will end when user makes a response.",
-      },
-
-      //likert
       questions: {
-        type: jsPsych.plugins.parameterType.COMPLEX,
-        array: true,
+        type: e.ParameterType.COMPLEX,
+        array: !0,
         pretty_name: "Questions",
         nested: {
           prompt: {
-            type: jsPsych.plugins.parameterType.STRING,
+            type: e.ParameterType.HTML_STRING,
             pretty_name: "Prompt",
-            default: undefined,
-            description: "Questions that are associated with the slider.",
+            default: void 0,
           },
           labels: {
-            type: jsPsych.plugins.parameterType.STRING,
-            array: true,
+            type: e.ParameterType.STRING,
+            array: !0,
             pretty_name: "Labels",
-            default: undefined,
-            description: "Labels to display for individual question.",
+            default: void 0,
           },
           required: {
-            type: jsPsych.plugins.parameterType.BOOL,
+            type: e.ParameterType.BOOL,
             pretty_name: "Required",
-            default: false,
-            description: "Makes answering the question required.",
+            default: !1,
           },
           name: {
-            type: jsPsych.plugins.parameterType.STRING,
+            type: e.ParameterType.STRING,
             pretty_name: "Question Name",
             default: "",
-            description:
-              "Controls the name of data values associated with this question",
           },
         },
       },
       randomize_question_order: {
-        type: jsPsych.plugins.parameterType.BOOL,
+        type: e.ParameterType.BOOL,
         pretty_name: "Randomize Question Order",
-        default: false,
-        description: "If true, the order of the questions will be randomized",
+        default: !1,
       },
       preamble: {
-        type: jsPsych.plugins.parameterType.STRING,
+        type: e.ParameterType.HTML_STRING,
         pretty_name: "Preamble",
         default: null,
-        description: "String to display at top of the page.",
       },
       scale_width: {
-        type: jsPsych.plugins.parameterType.INT,
+        type: e.ParameterType.INT,
         pretty_name: "Scale width",
         default: null,
-        description: "Width of the likert scales in pixels.",
       },
       button_label: {
-        type: jsPsych.plugins.parameterType.STRING,
+        type: e.ParameterType.STRING,
         pretty_name: "Button label",
         default: "Continue",
-        description: "Label of the button.",
+      },
+      autocomplete: {
+        type: e.ParameterType.BOOL,
+        pretty_name: "Allow autocomplete",
+        default: !1,
       },
     },
   };
-
-  plugin.trial = function (display_element, trial) {
-    // audio
-    // setup stimulus
-    var context = jsPsych.pluginAPI.audioContext();
-    if (context !== null) {
-      var source = context.createBufferSource();
-      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-      source.connect(context.destination);
-    } else {
-      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-      audio.currentTime = 0;
+  class r {
+    constructor(e) {
+      this.jsPsych = e;
     }
-
-    //likert
-    if (trial.scale_width !== null) {
-      var w = trial.scale_width + "px";
-    } else {
-      var w = "100%";
-    }
-
-    // inject CSS for trial
-    var html = "";
-    html += '<style id="jspsych-survey-likert-css">';
-    html +=
-      ".jspsych-survey-likert-statement { display:block; font-size: 16px; padding-top: 20px; margin-bottom:7px; }" +
-      ".jspsych-survey-likert-opts { list-style:none; width:" +
-      w +
-      "; margin:auto; padding:0 0 35px; display:block; font-size: 14px; line-height:1.1em; }" +
-      ".jspsych-survey-likert-opt-label { line-height: 1.1em; color: #444; }" +
-      ".jspsych-survey-likert-opts:before { content: ''; position:relative; top:11px; /*left:9.5%;*/ display:block; background-color:#efefef; height:4px; width:100%; }" +
-      ".jspsych-survey-likert-opts:last-of-type { border-bottom: 0; }" +
-      ".jspsych-survey-likert-opts li { display:inline-block; /*width:19%;*/ text-align:center; vertical-align: top; }" +
-      ".jspsych-survey-likert-opts li input[type=radio] { display:block; position:relative; top:0; left:50%; margin-left:-6px; }";
-    html += "</style>";
-
-    // show preamble text
-    if (trial.preamble !== null) {
-      html +=
-        '<div id="jspsych-survey-likert-preamble" class="jspsych-survey-likert-preamble">' +
-        trial.preamble +
-        "</div>";
-    }
-    html += '<form id="jspsych-survey-likert-form">';
-
-    // add likert scale questions ///
-    // generate question order. this is randomized here as opposed to randomizing the order of trial.questions
-    // so that the data are always associated with the same question regardless of order
-    var question_order = [];
-    for (var i = 0; i < trial.questions.length; i++) {
-      question_order.push(i);
-    }
-    if (trial.randomize_question_order) {
-      question_order = jsPsych.randomization.shuffle(question_order);
-    }
-
-    for (var i = 0; i < trial.questions.length; i++) {
-      var question = trial.questions[question_order[i]];
-      // add question
-      html +=
-        '<label class="jspsych-survey-likert-statement">' +
-        question.prompt +
-        "</label>";
-      // add options
-      var width = 100 / question.labels.length;
-      var options_string =
-        '<ul class="jspsych-survey-likert-opts" data-name="' +
-        question.name +
-        '" data-radio-group="Q' +
-        question_order[i] +
-        '">';
-      for (var j = 0; j < question.labels.length; j++) {
-        options_string +=
-          '<li style="width:' +
-          width +
-          '%"><input type="radio" name="Q' +
-          question_order[i] +
-          '" value="' +
-          j +
-          '"';
-        if (question.required) {
-          options_string += " required";
-        }
-        options_string +=
-          '><label class="jspsych-survey-likert-opt-label">' +
-          question.labels[j] +
-          "</label></li>";
+    trial(e, t) {
+      if (null !== t.scale_width) var r = t.scale_width + "px";
+      else r = "100%";
+      var s = "";
+      (s += '<style id="jspsych-survey-likert-css">'),
+        (s +=
+          ".jspsych-survey-likert-statement { display:block; font-size: 16px; padding-top: 40px; margin-bottom:10px; }.jspsych-survey-likert-opts { list-style:none; width:" +
+          r +
+          "; margin:auto; padding:0 0 35px; display:block; font-size: 14px; line-height:1.1em; }.jspsych-survey-likert-opt-label { line-height: 1.1em; color: #444; }.jspsych-survey-likert-opts:before { content: ''; position:relative; top:11px; /*left:9.5%;*/ display:block; background-color:#efefef; height:4px; width:100%; }.jspsych-survey-likert-opts:last-of-type { border-bottom: 0; }.jspsych-survey-likert-opts li { display:inline-block; /*width:19%;*/ text-align:center; vertical-align: top; }.jspsych-survey-likert-opts li input[type=radio] { display:block; position:relative; top:0; left:50%; margin-left:-6px; }"),
+        (s += "</style>"),
+        null !== t.preamble &&
+          (s +=
+            '<div id="jspsych-survey-likert-preamble" class="jspsych-survey-likert-preamble">' +
+            t.preamble +
+            "</div>"),
+        t.autocomplete
+          ? (s += '<form id="jspsych-survey-likert-form">')
+          : (s += '<form id="jspsych-survey-likert-form" autocomplete="off">');
+      for (var a = [], l = 0; l < t.questions.length; l++) a.push(l);
+      t.randomize_question_order && (a = this.jsPsych.randomization.shuffle(a));
+      for (l = 0; l < t.questions.length; l++) {
+        var i = t.questions[a[l]];
+        s +=
+          '<label class="jspsych-survey-likert-statement">' +
+          i.prompt +
+          "</label>";
+        for (
+          var p = 100 / i.labels.length,
+            o =
+              '<ul class="jspsych-survey-likert-opts" data-name="' +
+              i.name +
+              '" data-radio-group="Q' +
+              a[l] +
+              '">',
+            n = 0;
+          n < i.labels.length;
+          n++
+        )
+          (o +=
+            '<li style="width:' +
+            p +
+            '%"><label class="jspsych-survey-likert-opt-label"><input type="radio" name="Q' +
+            a[l] +
+            '" value="' +
+            n +
+            '"'),
+            i.required && (o += " required"),
+            (o += ">" + i.labels[n] + "</label></li>");
+        s += o += "</ul>";
       }
-      options_string += "</ul>";
-      html += options_string;
+      (s +=
+        '<input type="submit" id="jspsych-survey-likert-next" class="jspsych-survey-likert jspsych-btn" value="' +
+        t.button_label +
+        '"></input>'),
+        (s += "</form>"),
+        (e.innerHTML = s),
+        e
+          .querySelector("#jspsych-survey-likert-form")
+          .addEventListener("submit", (t) => {
+            t.preventDefault();
+            for (
+              var r = performance.now(),
+                s = Math.round(r - y),
+                l = {},
+                i = e.querySelectorAll(
+                  "#jspsych-survey-likert-form .jspsych-survey-likert-opts"
+                ),
+                p = 0;
+              p < i.length;
+              p++
+            ) {
+              var o = i[p].dataset.radioGroup,
+                n = e.querySelector('input[name="' + o + '"]:checked');
+              if (null === n) var u = "";
+              else u = parseInt(n.value);
+              var m = {};
+              if ("" !== i[p].attributes["data-name"].value)
+                var c = i[p].attributes["data-name"].value;
+              else c = o;
+              (m[c] = u), Object.assign(l, m);
+            }
+            var d = { rt: s, response: l, question_order: a };
+            (e.innerHTML = ""), this.jsPsych.finishTrial(d);
+          });
+      var y = performance.now();
     }
-
-    // add submit button
-    html +=
-      '<input type="submit" id="jspsych-survey-likert-next" class="jspsych-survey-likert jspsych-btn" value="' +
-      trial.button_label +
-      '"></input><br><br><br><br>';
-
-    html += "</form>";
-
-    display_element.innerHTML = html;
-
-    display_element
-      .querySelector("#jspsych-survey-likert-form")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-        // measure response time
-        var endTime = performance.now();
-        var response_time = endTime - startTime;
-
-        // create object to hold responses
-        var question_data = {};
-        var matches = display_element.querySelectorAll(
-          "#jspsych-survey-likert-form .jspsych-survey-likert-opts"
-        );
-        for (var index = 0; index < matches.length; index++) {
-          var id = matches[index].dataset["radioGroup"];
-          var el = display_element.querySelector(
-            'input[name="' + id + '"]:checked'
-          );
-          if (el === null) {
-            var response = "";
-          } else {
-            var response = parseInt(el.value);
-          }
-          var obje = {};
-          if (matches[index].attributes["data-name"].value !== "") {
-            var name = matches[index].attributes["data-name"].value;
-          } else {
-            var name = id;
-          }
-          obje[name] = response;
-          Object.assign(question_data, obje);
-        }
-
-        // save data
-        var trial_data = {
-          rt: response_time,
-          stimulus: trial.stimulus,
-          responses: JSON.stringify(question_data),
-          question_order: JSON.stringify(question_order),
-        };
-
-        if (trial.response_ends_trial) {
-          end_trial(trial_data);
-        } else {
-          display_element.innerHTML = "";
-          // next trial
-          jsPsych.finishTrial(trial_data);
-        }
-      });
-
-    var startTime = performance.now();
-
-    function end_trial(trial_data) {
-      // stop the audio file if it is playing
-      // remove end event listeners if they exist
-      if (context !== null) {
-        source.stop();
-        source.onended = function () {};
-      } else {
-        audio.pause();
-        audio.removeEventListener("ended", end_trial);
-      }
-
-      // kill any remaining setTimeout handlers
-      jsPsych.pluginAPI.clearAllTimeouts();
-
-      // clear the display
-      display_element.innerHTML = "";
-
-      // move on to the next trial
-      jsPsych.finishTrial(trial_data);
-    }
-
-    //start audio
-    if (context !== null) {
-      startAud = context.currentTime;
-      source.start(startAud);
-    } else {
-      audio.play();
-    }
-  };
-
-  return plugin;
-})();
+  }
+  return (r.info = t), r;
+})(jsPsychModule);
+//# sourceMappingURL=index.browser.min.js.map
