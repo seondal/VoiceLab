@@ -308,7 +308,7 @@ const scaleE7 = [
 
 const trialA = [
   {
-    prompt: "The voice sounds...",
+    prompt: "The line looks...",
     name: "stressed",
     labels: scaleE1,
     required: true,
@@ -323,7 +323,7 @@ const trialA = [
 
 const trialB = [
   {
-    prompt: "The voice sounds...",
+    prompt: "The line looks...",
     name: "stressed",
     labels: [...scaleE1].reverse(),
     required: true,
@@ -440,19 +440,13 @@ for (let t = 0; t < numTrials; t++) {
   let mainTrial = {
     timeline: [
       {
-        type: "html-keyboard-response",
-        stimulus: audioQ[t],
-        choices: jsPsych.NO_KEYS,
-        response_ends_trial: false,
-        trial_duration: 5000,
-      },
-      {
-        type: "audio-likert-jedit",
-        stimulus: audioQ[t],
+        type: jsPsychSurveyLikert,
+        preamble: `<h2>${audioQ[t]}</h2>`,
         scale_width: 400,
         response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
         on_finish: function (data) {
+          console.log(audioQ[t]);
           data.Gender = jsPsych.data.get().last(1).values()[0].Gender;
           data.Stressed = counterBalance
             ? 6 -
