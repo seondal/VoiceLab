@@ -201,6 +201,8 @@ const catchTrial = [
 ];
 const catchImgs = ["./stim/Cat.jpg", "./stim/Icecream.jpg"];
 
+console.log(audioQ[0]);
+
 // Survey code generator
 function makecode() {
   var text = "";
