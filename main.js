@@ -4,6 +4,8 @@ const audio_files = [
     // "./stim/000-061.m2ts",
     // "./stim/000-158.m2ts",
     "flower.webm",
+    "flower.webm",
+    "flower.webm",
   ],
   // [
   //   // batch1
