@@ -1,9 +1,9 @@
 const audio_files = [
-  // [
-  //   // batch0
-  //   "./stim/000-061.m2ts",
-  //   "./stim/000-158.m2ts",
-  // ],
+  [
+    // batch0
+    "./stim/000-061.m2ts",
+    "./stim/000-158.m2ts",
+  ],
   // [
   //   // batch1
   //   "./stim/001-102.m2ts",
@@ -49,7 +49,6 @@ const audio_files = [
   //   "./stim/010-188.m2ts",
   //   "./stim/010-223.m2ts",
   // ],
-  ["./fk.mov"],
 ];
 const test_audio = ["./stim/z_volumeTest.wav"];
 const beep_audio = ["./stim/z_beep2s.wav"];
