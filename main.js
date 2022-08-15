@@ -180,7 +180,7 @@ const audio_files = [
 
 // random batch number
 const random10 = Math.floor(Math.random() * 10);
-const batchNum = 9;
+const batchNum = random10;
 console.log("batch" + batchNum);
 
 // random counter balance
