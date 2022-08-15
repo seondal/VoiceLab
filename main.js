@@ -334,7 +334,7 @@ for (let t = 0; t < numTrials; t++) {
         choices: ["Next"],
       },
       {
-        type: jsPsychSurveyLikert,
+        type: "survey-likert",
         scale_width: 400,
         response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
