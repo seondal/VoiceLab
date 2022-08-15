@@ -1,10 +1,19 @@
-var jsPsych = initJsPsych();
+// Set Timeline
+let timeline = [];
+
+/* init connection with pavlovia.org */
+var pavlovia_init = {
+  type: "pavlovia",
+  command: "init",
+};
+timeline.push(pavlovia_init);
 
 var start = {
   type: jsPsychHtmlButtonResponse,
   stimulus: "",
   choices: ["Run demo"],
 };
+timeline.push(start);
 
 var show_data = {
   type: jsPsychHtmlButtonResponse,
@@ -16,6 +25,7 @@ var show_data = {
   },
   choices: ["Repeat demo"],
 };
+timeline.push(show_data);
 
 var likert_scale = [
   "Strongly Disagree",
@@ -35,16 +45,16 @@ var trial = {
   randomize_question_order: true,
 };
 
-var trial_loop = {
-  timeline: [trial, show_data],
-  loop_function: function () {
-    return true;
-  },
-};
+timeline.push(trial);
 
-if (typeof jsPsych !== "undefined") {
-  jsPsych.run([start, trial_loop]);
-} else {
-  document.body.innerHTML =
-    '<div style="text-align:center; margin-top:50%; transform:translate(0,-50%);">You must be online to view the plugin demo.</div>';
-}
+/* finish connection with pavlovia.org */
+var pavlovia_finish = {
+  type: "pavlovia",
+  command: "finish",
+};
+timeline.push(pavlovia_finish);
+
+/* start the experiment */
+jsPsych.init({
+  timeline: timeline,
+});
