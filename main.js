@@ -332,7 +332,6 @@ for (let t = 0; t < numTrials; t++) {
           audioQ[t] +
           '" type="video/webm">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
         choices: ["Next"],
-        response_ends_trial: false,
       },
       {
         type: "survey-likert-jedit",
