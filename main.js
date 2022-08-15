@@ -350,7 +350,7 @@ for (let t = 0; t < numTrials; t++) {
         trial_duration: 5000,
       },
       {
-        type: "audio-likert-jedit",
+        type: "survey-likert-jedit",
         stimulus: audioQ[t],
         scale_width: 400,
         response_ends_trial: false,
