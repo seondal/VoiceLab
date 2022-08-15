@@ -208,14 +208,18 @@ jsPsych.plugins["survey-likert-jedit"] = (function () {
         // save data
         var trial_data = {
           rt: response_time,
-          response: question_data,
-          question_order: question_order,
+          stimulus: trial.stimulus,
+          responses: JSON.stringify(question_data),
+          question_order: JSON.stringify(question_order),
         };
 
-        display_element.innerHTML = "";
-
-        // next trial
-        jsPsych.finishTrial(trial_data);
+        if (trial.response_ends_trial) {
+          end_trial(trial_data);
+        } else {
+          display_element.innerHTML = "";
+          // next trial
+          jsPsych.finishTrial(trial_data);
+        }
       });
 
     var startTime = performance.now();
