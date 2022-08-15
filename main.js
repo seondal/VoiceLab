@@ -457,10 +457,7 @@ for (let t = 0; t < numTrials; t++) {
     timeline: [
       {
         type: "html-keyboard-response",
-        stimulus:
-          '<audio autoplay><source src="' +
-          audioQ[t] +
-          '", type = "audio/wav">Your browser does not support the audio element.</audio>',
+        stimulus: "<h2>" + audioQ[t] + "</h2>",
         choices: jsPsych.NO_KEYS,
         response_ends_trial: false,
         trial_duration: 5000,
