@@ -464,18 +464,20 @@ for (let t = 0; t < numTrials; t++) {
       },
       {
         type: "survey-likert-jedit",
-        questions: {
-          prompt: "The voice sounds...",
-          name: "stressed",
-          labels: scaleE1,
-          required: true,
-        },
-        { prompt: " ", name: "angry", labels: scaleE2, required: true },
-        { prompt: " ", name: "hostile", labels: scaleE3, required: true },
-        { prompt: " ", name: "happy", labels: scaleE4, required: true },
-        { prompt: " ", name: "interested", labels: scaleE5, required: true },
-        { prompt: " ", name: "formal", labels: scaleE6, required: true },
-        { prompt: " ", name: "confident", labels: scaleE7, required: true },
+        questions: [
+          {
+            prompt: "The voice sounds...",
+            name: "stressed",
+            labels: scaleE1,
+            required: true,
+          },
+          { prompt: " ", name: "angry", labels: scaleE2, required: true },
+          { prompt: " ", name: "hostile", labels: scaleE3, required: true },
+          { prompt: " ", name: "happy", labels: scaleE4, required: true },
+          { prompt: " ", name: "interested", labels: scaleE5, required: true },
+          { prompt: " ", name: "formal", labels: scaleE6, required: true },
+          { prompt: " ", name: "confident", labels: scaleE7, required: true },
+        ],
         scale_width: 400,
         on_finish: function (data) {
           data.Gender = jsPsych.data.get().last(1).values()[0].Gender;
