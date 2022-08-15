@@ -605,7 +605,7 @@ jsPsych.init({
   show_progress_bar: true,
   timeline: expTL,
   use_webaudio: false,
-  preload_audio: [audio_files, test_audio, beep_audio],
+  preload_audio: [test_audio, beep_audio],
   preload_images: [catchImgs],
   on_finish: function () {
     jsPsych.data.displayData();
