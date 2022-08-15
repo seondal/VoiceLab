@@ -436,7 +436,7 @@ for (let t = 0; t < numTrials; t++) {
     timeline: [
       {
         type: "html-button-response",
-        stimulus: "<h1>후회 안 하실 거죠.</h1>",
+        stimulus: "<h1>" + audioQ[t] + "</h1>",
         choices: ["Next"],
       },
       {
