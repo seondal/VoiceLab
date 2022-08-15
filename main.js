@@ -326,7 +326,7 @@ for (let t = 0; t < numTrials; t++) {
   let mainTrial = {
     timeline: [
       {
-        type: "html-keyboard-response",
+        type: "html-button-response",
         stimulus:
           '<video><source src="' +
           audioQ[t] +
