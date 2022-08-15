@@ -439,7 +439,7 @@ expTL.push({
 
 // main experiment
 for (let t = 0; t < numTrials; t++) {
-  const inputText = JSON.stringify(audioQ[t]);
+  const inputText = audioQ[t];
   console.log(inputText);
 
   let mainTrial = {
@@ -452,9 +452,11 @@ for (let t = 0; t < numTrials; t++) {
         trial_duration: 5000,
       },
       {
-        type: jsPsychSurveyLikert,
+        type: "audio-likert-jedit",
+        stimulus: inputText,
         preamble: `<h2>${inputText}</h2>`,
         scale_width: 400,
+        response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
         on_finish: function (data) {
           data.Gender = jsPsych.data.get().last(1).values()[0].Gender;
