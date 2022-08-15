@@ -1,4 +1,4 @@
-const text_files = [
+const audio_files = [
   // batch 0
   [
     "왜 안 맞지?",
@@ -181,6 +181,8 @@ const text_files = [
     "후회 안 하실 거죠.",
   ],
 ];
+const test_audio = ["./stim/z_volumeTest.wav"];
+const beep_audio = ["./stim/z_beep2s.wav"];
 
 // random batch number
 const random10 = Math.floor(Math.random() * 10);
@@ -193,15 +195,13 @@ const counterBalance = random2;
 counterBalance ? console.log("trialA") : console.log("trialB");
 
 // set variables - part1
-const audioQ = jsPsych.randomization.shuffle(text_files[batchNum]);
-const numTrials = text_files[batchNum].length;
+const audioQ = jsPsych.randomization.shuffle(audio_files[batchNum]);
+const numTrials = audio_files[batchNum].length;
 const catchTrial = [
   math.floor(math.random((numTrials * 2) / 8, (3 * numTrials) / 8)),
   math.floor(math.random((6 * numTrials) / 8, (7 * numTrials) / 8)),
 ];
 const catchImgs = ["./stim/Cat.jpg", "./stim/Icecream.jpg"];
-
-console.log(audioQ[0]);
 
 // Survey code generator
 function makecode() {
@@ -310,7 +310,7 @@ const scaleE7 = [
 
 const trialA = [
   {
-    prompt: "The line looks...",
+    prompt: "The voice sounds...",
     name: "stressed",
     labels: scaleE1,
     required: true,
@@ -325,7 +325,7 @@ const trialA = [
 
 const trialB = [
   {
-    prompt: "The line looks...",
+    prompt: "The voice sounds...",
     name: "stressed",
     labels: [...scaleE1].reverse(),
     required: true,
@@ -423,7 +423,21 @@ expTL.push({
   },
 });
 
-// Intro - 안내 글자는 추후 직접 추가해주세요
+// Volume test
+expTL.push({
+  type: "html-button-response",
+  stimulus: [
+    '<p style="text-align: left; margin: auto">Before we begin, please adjust your earphone volume. A sample voice will be played when you press Next.' +
+      "<br>Use that sound to set the volume to the level you feel comfortable.<br><br></p>",
+  ],
+  choices: ["Next"],
+});
+
+expTL.push({
+  type: "audio-likert-jedit_volumeAdjust",
+  stimulus: test_audio,
+  preamble: "<p>Adjust your system volume.<br></p>",
+});
 
 expTL.push({
   type: "html-button-response",
@@ -439,22 +453,18 @@ expTL.push({
 
 // main experiment
 for (let t = 0; t < numTrials; t++) {
-  const inputText = audioQ[t];
-  console.log(inputText);
-
   let mainTrial = {
     timeline: [
       {
         type: "html-keyboard-response",
-        stimulus: `<h2>${inputText}</h2>`,
+        stimulus: "<h2>" + audioQ[t] + "</h2>",
         choices: jsPsych.NO_KEYS,
         response_ends_trial: false,
         trial_duration: 5000,
       },
       {
         type: "audio-likert-jedit",
-        stimulus: inputText,
-        preamble: `<h2>${inputText}</h2>`,
+        stimulus: audioQ[t],
         scale_width: 400,
         response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
@@ -595,6 +605,7 @@ jsPsych.init({
   show_progress_bar: true,
   timeline: expTL,
   use_webaudio: false,
+  preload_audio: [audio_files, test_audio, beep_audio],
   preload_images: [catchImgs],
   on_finish: function () {
     jsPsych.data.displayData();
