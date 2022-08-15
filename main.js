@@ -173,12 +173,9 @@ const audio_files = [
     "시청자 여러분, 안녕하십니까.",
     "안녕히 주무세요.",
     "왜 자꾸 거짓말을 하세요?",
-    "손님. 못 바꿔드려요.",
-    "빨리 집으로 와.",
-    "후회 안 하실 거죠.",
   ],
   // batch 9
-  ["yeseyseys", "nonono", "wowwowwow"],
+  ["손님. 못 바꿔드려요.", "빨리 집으로 와.", "후회 안 하실 거죠."],
 ];
 
 // random batch number
@@ -439,7 +436,7 @@ for (let t = 0; t < numTrials; t++) {
     timeline: [
       {
         type: "html-button-response",
-        stimulus: "<h1>" + audioQ[t] + "</h1>",
+        stimulus: "<h1>후회 안 하실 거죠.</h1>",
         choices: ["Next"],
       },
       {
