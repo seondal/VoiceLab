@@ -331,9 +331,8 @@ for (let t = 0; t < numTrials; t++) {
           '<video><source src="' +
           audioQ[t] +
           '" ype="video/mp4">해당 브라우저는 video 태그를 지원하지 않습니다.</video>',
-        choices: jsPsych.NO_KEYS,
+        choices: ["Next"],
         response_ends_trial: false,
-        trial_duration: 5000,
       },
       {
         type: "survey-likert-jedit",
