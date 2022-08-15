@@ -1,8 +1,9 @@
 const audio_files = [
   [
     // batch0
-    "./stim/000-061.m2ts",
-    "./stim/000-158.m2ts",
+    // "./stim/000-061.m2ts",
+    // "./stim/000-158.m2ts",
+    "./ya.mp4",
   ],
   // [
   //   // batch1
@@ -329,7 +330,7 @@ for (let t = 0; t < numTrials; t++) {
         stimulus:
           '<video height="180" width="288" controls autoplay><source src="' +
           audioQ[t] +
-          '" type="video/m2ts">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
+          '" type="video/mp4">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
         choices: jsPsych.NO_KEYS,
         response_ends_trial: false,
         trial_duration: 5000,
