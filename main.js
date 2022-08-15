@@ -3,7 +3,7 @@ const audio_files = [
     // batch0
     // "./stim/000-061.m2ts",
     // "./stim/000-158.m2ts",
-    "./ya.mp4",
+    "flower.webm",
   ],
   // [
   //   // batch1
@@ -330,7 +330,7 @@ for (let t = 0; t < numTrials; t++) {
         stimulus:
           '<video width="500" controls><source src="' +
           audioQ[t] +
-          '" type="video/mp4">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
+          '" type="video/webm">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
         choices: ["Next"],
         response_ends_trial: false,
       },
