@@ -1,64 +1,71 @@
 const audio_files = [
   [
     // batch0
-    // "./stim/000-061.m2ts",
-    // "./stim/000-158.m2ts",
-    "flower.webm",
-    "flower.webm",
-    "flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
   ],
-  // [
-  //   // batch1
-  //   "./stim/001-102.m2ts",
-  //   "./stim/001-210.m2ts",
-  // ],
-  // [
-  //   // batch2
-  //   "./stim/002-209.m2ts",
-  //   "./stim/003-021.m2ts",
-  // ],
-  // [
-  //   // batch3
-  //   "./stim/003-154.m2ts",
-  //   "./stim/004-118.m2ts",
-  // ],
-  // [
-  //   // batch4
-  //   "./stim/004-323.m2ts",
-  //   "./stim/005-231.m2ts",
-  // ],
-  // [
-  //   // batch5
-  //   "./stim/006-173.m2ts",
-  //   "./stim/006-245.m2ts",
-  // ],
-  // [
-  //   // batch6
-  //   "./stim/007-225.m2ts",
-  //   "./stim/007-256.m2ts",
-  // ],
-  // [
-  //   // batch7
-  //   "./stim/008-067.m2ts",
-  //   "./stim/008-212.m2ts",
-  // ],
-  // [
-  //   // batch8
-  //   "./stim/009-025.m2ts",
-  //   "./stim/009-172.m2ts",
-  // ],
-  // [
-  //   // batch9
-  //   "./stim/010-188.m2ts",
-  //   "./stim/010-223.m2ts",
-  // ],
+  [
+    // batch1
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch2
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch3
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch4
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch5
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch6
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch7
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch8
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
+  [
+    // batch9
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+    "./stim/flower.webm",
+  ],
 ];
 const test_audio = ["./stim/z_volumeTest.wav"];
 const beep_audio = ["./stim/z_beep2s.wav"];
 
 // random batch number
 const random10 = Math.floor(Math.random() * 10);
-const batchNum = 0;
+const batchNum = random10;
 console.log("batch" + batchNum);
 
 // random counter balance
