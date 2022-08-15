@@ -328,9 +328,9 @@ for (let t = 0; t < numTrials; t++) {
       {
         type: "html-keyboard-response",
         stimulus:
-          '<video height="180" width="288" controls autoplay><source src="' +
+          '<video><source src="' +
           audioQ[t] +
-          '" type="video/mp4">이 문장은 여러분의 브라우저가 video 태그를 지원하지 않을 때 화면에 표시됩니다!</video>',
+          '" ype="video/mp4">해당 브라우저는 video 태그를 지원하지 않습니다.</video>',
         choices: jsPsych.NO_KEYS,
         response_ends_trial: false,
         trial_duration: 5000,
