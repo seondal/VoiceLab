@@ -1,5 +1,5 @@
-// Set Timeline
-let timeline = [];
+/* create timeline */
+var timeline = [];
 
 /* init connection with pavlovia.org */
 var pavlovia_init = {
@@ -8,25 +8,14 @@ var pavlovia_init = {
 };
 timeline.push(pavlovia_init);
 
-var start = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: "",
-  choices: ["Run demo"],
+/* define welcome message trial */
+var welcome = {
+  type: "html-keyboard-response",
+  stimulus: "Welcome to the experiment. Press any key to begin.",
 };
-timeline.push(start);
+timeline.push(welcome);
 
-var show_data = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: function () {
-    var trial_data = jsPsych.data.getLastTrialData().values();
-    var trial_json = JSON.stringify(trial_data, null, 2);
-    return `<p style="margin-bottom:0px;"><strong>Trial data:</strong></p>
-            <pre style="margin-top:0px;text-align:left;">${trial_json}</pre>`;
-  },
-  choices: ["Repeat demo"],
-};
-timeline.push(show_data);
-
+/* test trials */
 var likert_scale = [
   "Strongly Disagree",
   "Disagree",
@@ -44,17 +33,21 @@ var trial = {
   ],
   randomize_question_order: true,
 };
-
 timeline.push(trial);
 
 /* finish connection with pavlovia.org */
 var pavlovia_finish = {
   type: "pavlovia",
   command: "finish",
+  participantId: "JSPSYCH-DEMO",
 };
 timeline.push(pavlovia_finish);
 
 /* start the experiment */
 jsPsych.init({
   timeline: timeline,
+
+  on_finish: function (data) {
+    jsPsych.data.displayData();
+  },
 });
