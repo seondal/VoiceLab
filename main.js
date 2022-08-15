@@ -440,10 +440,16 @@ for (let t = 0; t < numTrials; t++) {
   let mainTrial = {
     timeline: [
       {
+        type: "html-keyboard-response",
+        stimulus: `<h2>${audioQ[t]}</h2>`,
+        choices: jsPsych.NO_KEYS,
+        response_ends_trial: false,
+        trial_duration: 5000,
+      },
+      {
         type: "survey-likert-jedit",
         preamble: `<h2>${audioQ[t]}</h2>`,
         scale_width: 400,
-        response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
         on_finish: function (data) {
           console.log(audioQ[t]);
