@@ -437,6 +437,7 @@ expTL.push({
 
 // main experiment
 for (let t = 0; t < numTrials; t++) {
+  console.log(audioQ[t]);
   let mainTrial = {
     timeline: [
       {
@@ -447,12 +448,11 @@ for (let t = 0; t < numTrials; t++) {
         trial_duration: 5000,
       },
       {
-        type: "survey-likert-jedit",
+        type: jsPsychSurveyLikert,
         preamble: `<h2>${audioQ[t]}</h2>`,
         scale_width: 400,
         questions: counterBalance ? trialA : trialB,
         on_finish: function (data) {
-          console.log(audioQ[t]);
           data.Gender = jsPsych.data.get().last(1).values()[0].Gender;
           data.Stressed = counterBalance
             ? 6 -
