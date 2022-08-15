@@ -464,10 +464,8 @@ for (let t = 0; t < numTrials; t++) {
       },
       {
         type: "survey-likert-jedit",
-        // stimulus: audioQ[t],
-        scale_width: 400,
-        response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
+        scale_width: 400,
         on_finish: function (data) {
           data.Gender = jsPsych.data.get().last(1).values()[0].Gender;
           data.Stressed = counterBalance
