@@ -440,7 +440,7 @@ for (let t = 0; t < numTrials; t++) {
   let mainTrial = {
     timeline: [
       {
-        type: jsPsychSurveyLikert,
+        type: "survey-likert-jedit",
         preamble: `<h2>${audioQ[t]}</h2>`,
         scale_width: 400,
         response_ends_trial: false,
