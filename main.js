@@ -437,19 +437,21 @@ expTL.push({
 
 // main experiment
 for (let t = 0; t < numTrials; t++) {
-  console.log(audioQ[t]);
+  const inputText = JSON.stringify(audioQ[t]);
+  console.log(inputText);
+
   let mainTrial = {
     timeline: [
       {
         type: "html-keyboard-response",
-        stimulus: `<h2>${audioQ[t]}</h2>`,
+        stimulus: `<h2>${inputText}</h2>`,
         choices: jsPsych.NO_KEYS,
         response_ends_trial: false,
         trial_duration: 5000,
       },
       {
         type: jsPsychSurveyLikert,
-        preamble: `<h2>${audioQ[t]}</h2>`,
+        preamble: `<h2>${inputText}</h2>`,
         scale_width: 400,
         questions: counterBalance ? trialA : trialB,
         on_finish: function (data) {
