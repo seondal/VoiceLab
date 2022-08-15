@@ -335,7 +335,6 @@ for (let t = 0; t < numTrials; t++) {
       },
       {
         type: "survey-likert-jedit",
-        stimulus: audioQ[t],
         scale_width: 400,
         response_ends_trial: false,
         questions: counterBalance ? trialA : trialB,
