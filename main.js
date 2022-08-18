@@ -406,10 +406,7 @@ expTL.push({
     data.subLang = JSON.parse(
       jsPsych.data.getLastTrialData().select("responses").values
     ).Q1;
-    if (
-      "Korean" ==
-      JSON.parse(jsPsych.data.getLastTrialData().select("responses").values).Q1
-    ) {
+    if ("Korean" == data.subLang) {
       jsPsych.endExperiment(
         "You cannot participate in the study if your first language is Korean."
       );
@@ -583,10 +580,4 @@ jsPsych.init({
   timeline: expTL,
   use_webaudio: false,
   preload_images: [catchImgs],
-  on_finish: function () {
-    jsPsych.data.displayData();
-    endExperiment(jsPsych.data.get().csv(), function () {
-      document.write(HTMLExperimentEnd);
-    });
-  },
 });
