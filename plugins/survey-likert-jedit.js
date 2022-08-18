@@ -93,7 +93,7 @@ jsPsych.plugins["survey-likert-jedit"] = (function () {
     // inject CSS for trial
     html += '<style id="jspsych-survey-likert-css">';
     html +=
-      ".jspsych-survey-likert-statement { display:block; font-size: 16px; padding-top: 40px; margin-bottom:10px; }" +
+      ".jspsych-survey-likert-statement { display:block; font-size: 16px; padding-top: 4px; margin-bottom:10px; }" +
       ".jspsych-survey-likert-opts { list-style:none; width:" +
       w +
       "; margin:auto; padding:0 0 35px; display:block; font-size: 14px; line-height:1.1em; }" +
